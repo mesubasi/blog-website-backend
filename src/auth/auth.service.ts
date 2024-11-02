@@ -15,7 +15,7 @@ export class AuthService {
     const hashedPass = await bcrypt.hash(dto.password, 10);
     const newUser = new this.userModel({
       email: dto.email,
-      password: dto.password,
+      password: hashedPass,
     });
     const user = await newUser.save(); //Veritabanına Kaydet
     return this.createToken(user.email);
