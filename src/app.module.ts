@@ -5,14 +5,18 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { JWTStrategy } from './jwt/jwt.strategy';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 @Module({
   imports: [
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URI'),
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, JWTStrategy],
