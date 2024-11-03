@@ -4,14 +4,20 @@ import { AuthService } from './auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
-import { JWTStrategy } from 'src/jwt/jwt.strategy';
+import * as dotenv from 'dotenv';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
+dotenv.config();
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '20m' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '20m' },
+      }),
     }),
   ],
   controllers: [AuthController],
