@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
@@ -18,6 +18,14 @@ export class AuthService {
       password: hashedPass,
     });
     const user = await newUser.save(); //Veritabanına Kaydet
+    return this.createToken(user.email);
+  }
+
+  async login(dto: AuthDTO) {
+    const user = await this.userModel.findOne({ email: dto.email });
+    if (!user) throw new UnauthorizedException('Wrong Email!');
+    const isMach = await bcrypt.compare(dto.password, user.password);
+    if (!isMach) throw new UnauthorizedException('Wrong Password!');
     return this.createToken(user.email);
   }
 

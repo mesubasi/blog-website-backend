@@ -16,4 +16,14 @@ export class AuthController {
   register(@Body() dto: AuthDTO) {
     return this.authService.register(dto); //AuthDTO'yu fonksiyona gönder
   }
+
+  @Post('login')
+  @ApiOperation({
+    summary: 'Endpoint for Login',
+  })
+  @ApiResponse({ status: 200, description: 'Successfully Registered!' })
+  @ApiBody({ type: AuthDTO })
+  login(@Body() dto: AuthDTO) {
+    return this.authService.login(dto); //AuthDTO'yu fonksiyona gönder
+  }
 }
