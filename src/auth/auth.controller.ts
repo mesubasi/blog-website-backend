@@ -21,7 +21,9 @@ export class AuthController {
   @ApiOperation({
     summary: 'Endpoint for Login',
   })
-  @ApiResponse({ status: 200, description: 'Successfully Registered!' })
+  @ApiResponse({ status: 200, description: 'Successfully Login!' })
+  @ApiResponse({ status: 401, description: 'Wrong Email!' })
+  @ApiResponse({ status: 401, description: 'Wrong Password!' })
   @ApiBody({ type: AuthDTO })
   @HttpCode(HttpStatus.OK)
   login(@Body() dto: AuthDTO) {
