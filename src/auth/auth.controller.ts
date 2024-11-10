@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDTO } from './dto/auth.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -23,6 +23,7 @@ export class AuthController {
   })
   @ApiResponse({ status: 200, description: 'Successfully Registered!' })
   @ApiBody({ type: AuthDTO })
+  @HttpCode(HttpStatus.OK)
   login(@Body() dto: AuthDTO) {
     return this.authService.login(dto); //AuthDTO'yu fonksiyona gönder
   }
