@@ -1,7 +1,7 @@
 import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 
 @Controller()
@@ -11,7 +11,9 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   @Get()
   @ApiBearerAuth()
-  @Throttle({ short: { limit: 3, ttl: 10000 } })
+  @ApiResponse({ status: 200, description: 'Request Successful!' })
+  @ApiResponse({ status: 401, description: 'Unauthorised Access!' })
+  @Throttle({ short: { limit: 3, ttl: 1000 } })
   getHello(@Request() req: any): string {
     return this.appService.getHello();
   }

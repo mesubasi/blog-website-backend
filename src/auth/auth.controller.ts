@@ -2,6 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDTO } from './dto/auth.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
@@ -13,6 +14,7 @@ export class AuthController {
   })
   @ApiResponse({ status: 201, description: 'Successfully Registered!' })
   @ApiBody({ type: AuthDTO })
+  @Throttle({ short: { limit: 3, ttl: 1000 } })
   register(@Body() dto: AuthDTO) {
     return this.authService.register(dto); //AuthDTO'yu fonksiyona gönder
   }

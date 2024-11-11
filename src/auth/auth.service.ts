@@ -33,13 +33,11 @@ export class AuthService {
     if (!user) throw new UnauthorizedException('Wrong Email!');
 
     // Parola Kontrolü Yap
-    const isMach = await bcrypt.compare(dto.password, user.password);
-    if (!isMach) throw new UnauthorizedException('Wrong Password!');
+    const isMatch = await bcrypt.compare(dto.password, user.password);
+    if (!isMatch) throw new UnauthorizedException('Wrong Password!');
 
     // Bilgiler Doğru İse Giriş Yap
-    if (isMach) {
-      return this.createToken(user.email);
-    }
+    if (isMatch) return this.createToken(user.email);
   }
 
   createToken(email: string) {
