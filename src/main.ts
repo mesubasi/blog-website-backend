@@ -10,7 +10,8 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Blog API')
     .setDescription('Nest.JS Blog API')
-    .setVersion('1.0')
+    .addBearerAuth()
+    .setVersion('1.1')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
