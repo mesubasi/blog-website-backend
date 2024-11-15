@@ -7,7 +7,7 @@ export class AuthDTO {
   email: string;
 
   @ApiProperty({ example: '123456' })
-  @MinLength(8, { message: 'password must have a minimum of 8 characters' })
+  @MinLength(8, { message: 'Password must have a minimum of 8 characters' })
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
     {
