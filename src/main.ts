@@ -11,7 +11,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Blog API')
-    .setDescription('Nest.JS Blog API')
+    .setDescription('Nest.JS Blog API Documentation')
     .addBearerAuth()
     .setVersion('1.1')
     .build();
