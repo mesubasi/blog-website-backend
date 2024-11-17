@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { JWTStrategy } from './jwt/jwt.strategy';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { BlogsModule } from './blogs/blogs.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { APP_GUARD } from '@nestjs/core';
         uri: configService.get<string>('MONGODB_URI'),
       }),
     }),
+    BlogsModule,
   ],
   controllers: [AppController],
   providers: [
