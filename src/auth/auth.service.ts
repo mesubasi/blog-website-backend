@@ -18,6 +18,7 @@ export class AuthService {
   async register(dto: AuthDTO) {
     const hashedPass = await bcrypt.hash(dto.password, 12);
     const existingUser = await this.userModel.findOne({ email: dto.email });
+
     if (existingUser) throw new ConflictException('User Exists');
     const newUser = new this.userModel({
       email: dto.email,
