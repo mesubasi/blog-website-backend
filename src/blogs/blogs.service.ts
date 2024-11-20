@@ -23,8 +23,7 @@ export class BlogsService {
     return await newBlog.save();
   }
 
-  async updateBlog() {
-    dto: BlogDto;
-    id: 
+  async updateBlog(dto: BlogDto, id: string) {
+    return await this.blogModel.findByIdAndUpdate(id, dto, { new: true });
   }
 }
