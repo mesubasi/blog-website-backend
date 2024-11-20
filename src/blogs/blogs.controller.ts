@@ -22,8 +22,8 @@ export class BlogsController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Put()
+  @Put(':id')
   updateBlog(@Body() dto: BlogDto, @Param('id') id: string) {
-    return this.blogService.updateBlog(dto);
+    return this.blogService.updateBlog(dto, id);
   }
 }

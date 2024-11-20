@@ -22,4 +22,9 @@ export class BlogsService {
     });
     return await newBlog.save();
   }
+
+  async updateBlog() {
+    dto: BlogDto;
+    id: 
+  }
 }
