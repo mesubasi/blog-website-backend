@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from './schemas/blog.schema';
 import { Model } from 'mongoose';
@@ -24,6 +24,14 @@ export class BlogsService {
   }
 
   async updateBlog(dto: BlogDto, id: string) {
-    return await this.blogModel.findByIdAndUpdate(id, dto, { new: true });
+    const blogUpdate = await this.blogModel.findByIdAndUpdate(id, dto, {
+      new: true,
+    });
+
+    return blogUpdate;
+  }
+
+  async removeBlog(id: string) {
+    return await this.blogModel.findByIdAndDelete(id);
   }
 }

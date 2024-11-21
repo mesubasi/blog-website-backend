@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Param,
   Post,
   Put,
@@ -25,5 +26,11 @@ export class BlogsController {
   @Put(':id')
   updateBlog(@Body() dto: BlogDto, @Param('id') id: string) {
     return this.blogService.updateBlog(dto, id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete(':id')
+  removeBlog(@Param('id') id: string) {
+    return this.blogService.removeBlog(id);
   }
 }
