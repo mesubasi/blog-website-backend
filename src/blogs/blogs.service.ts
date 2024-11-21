@@ -24,11 +24,9 @@ export class BlogsService {
   }
 
   async updateBlog(dto: BlogDto, id: string) {
-    const blogUpdate = await this.blogModel.findByIdAndUpdate(id, dto, {
+    return await this.blogModel.findByIdAndUpdate(id, dto, {
       new: true,
     });
-
-    return blogUpdate;
   }
 
   async removeBlog(id: string) {
