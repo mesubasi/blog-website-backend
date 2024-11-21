@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from './schemas/blog.schema';
 import { Model } from 'mongoose';
@@ -30,6 +30,11 @@ export class BlogsService {
   }
 
   async removeBlog(id: string) {
-    return await this.blogModel.findByIdAndDelete(id);
+    const deletePost = await this.blogModel.findByIdAndDelete(id);
+
+    if (!deletePost)
+      throw new HttpException(`Item ${id} Not Found!`, HttpStatus.NOT_FOUND);
+
+    return { message: 'Item Deleted Succesfully!', id };
   }
 }
