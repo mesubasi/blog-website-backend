@@ -13,28 +13,49 @@ export class BlogsService {
   ) {}
 
   async createBlog(dto: BlogDto, req: any) {
-    const user = await this.userModel.findOne({ email: req.user.email });
-    const newBlog = new this.blogModel({
-      title: dto.title,
-      content: dto.content,
-      sharedBy: user.email,
-      userId: user._id,
-    });
-    return await newBlog.save();
+    try {
+      const user = await this.userModel.findOne({ email: req.user.email });
+      const newBlog = new this.blogModel({
+        title: dto.title,
+        content: dto.content,
+        sharedBy: user.email,
+        userId: user._id,
+      });
+      return await newBlog.save();
+    } catch (err) {
+      throw new HttpException(
+        err.message || 'Failed to create post',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async updateBlog(dto: BlogDto, id: string) {
-    return await this.blogModel.findByIdAndUpdate(id, dto, {
-      new: true,
-    });
+    try {
+      return await this.blogModel.findByIdAndUpdate(id, dto, {
+        new: true,
+      });
+    } catch (err) {
+      throw new HttpException(
+        err.message || 'Failed to update post',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async removeBlog(id: string) {
-    const deletePost = await this.blogModel.findByIdAndDelete(id);
+    try {
+      const deletePost = await this.blogModel.findByIdAndDelete(id);
 
-    if (!deletePost)
-      throw new HttpException(`Item ${id} Not Found!`, HttpStatus.NOT_FOUND);
+      if (!deletePost)
+        throw new HttpException(`Item ${id} Not Found!`, HttpStatus.NOT_FOUND);
 
-    return { message: 'Item Deleted Succesfully!', id };
+      return deletePost;
+    } catch (err) {
+      throw new HttpException(
+        err.message || 'Failed to remove post',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
