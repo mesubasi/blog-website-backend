@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Post,
   Put,
@@ -32,5 +33,10 @@ export class BlogsController {
   @Delete(':id')
   removeBlog(@Param('id') id: string) {
     return this.blogService.removeBlog(id);
+  }
+
+  @Get()
+  async getAllBlogs() {
+    return this.blogService.getAllBlogs();
   }
 }

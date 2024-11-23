@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Get, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from './schemas/blog.schema';
 import { Model } from 'mongoose';
@@ -54,6 +54,17 @@ export class BlogsService {
     } catch (err) {
       throw new HttpException(
         err.message || 'Failed to remove post',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async getAllBlogs() {
+    try {
+      return await this.blogModel.find();
+    } catch (err) {
+      throw new HttpException(
+        err.message || 'Failed to get all blog post',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
