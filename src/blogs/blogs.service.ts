@@ -69,4 +69,16 @@ export class BlogsService {
       );
     }
   }
+
+  async getCurrentUsersBlog(req: any) {
+    try {
+      const user = await this.userModel.findOne({ email: req.user.email });
+      return await this.blogModel.find({ userId: user._id });
+    } catch (err) {
+      throw new HttpException(
+        err.message || 'Failed to get current user blogs',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

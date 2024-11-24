@@ -39,4 +39,10 @@ export class BlogsController {
   async getAllBlogs() {
     return this.blogService.getAllBlogs();
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('my-blogs')
+  getCurrentUsersBlog(@Request() req: any) {
+    return this.blogService.getCurrentUsersBlog(req);
+  }
 }
