@@ -45,4 +45,9 @@ export class BlogsController {
   getCurrentUsersBlog(@Request() req: any) {
     return this.blogService.getCurrentUsersBlog(req);
   }
+
+  @Get(':id')
+  getOneBlog(@Param('id') id: string) {
+    return this.blogService.getOneBlog(id);
+  }
 }

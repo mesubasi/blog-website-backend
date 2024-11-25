@@ -81,4 +81,15 @@ export class BlogsService {
       );
     }
   }
+
+  async getOneBlog(id: string) {
+    try {
+      return await this.blogModel.findById(id);
+    } catch (err) {
+      throw new HttpException(
+        err.message || 'Failed to get current one blog',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }
