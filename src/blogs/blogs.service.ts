@@ -14,12 +14,14 @@ export class BlogsService {
 
   async createBlog(dto: BlogDto, req: any) {
     try {
-      const user = await this.userModel.findOne({ email: req.user.email });
+      const currentUser = await this.userModel.findOne({
+        email: req.user.email,
+      });
       const newBlog = new this.blogModel({
         title: dto.title,
         content: dto.content,
-        sharedBy: user.email,
-        userId: user._id,
+        sharedBy: currentUser.email,
+        userId: currentUser._id,
       });
       return await newBlog.save();
     } catch (err) {
@@ -72,8 +74,10 @@ export class BlogsService {
 
   async getCurrentUsersBlog(req: any) {
     try {
-      const user = await this.userModel.findOne({ email: req.user.email });
-      return await this.blogModel.find({ userId: user._id });
+      const currentUser = await this.userModel.findOne({
+        email: req.currentUser.email,
+      });
+      return await this.blogModel.find({ userId: currentUser._id });
     } catch (err) {
       throw new HttpException(
         err.message || 'Failed to get current user blogs',
