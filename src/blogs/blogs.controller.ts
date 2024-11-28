@@ -29,8 +29,8 @@ export class BlogsController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @Put(':id')
-  updateBlog(@Body() dto: BlogDto, @Param('id') id: string) {
-    return this.blogService.updateBlog(dto, id);
+  updateBlog(@Body() dto: BlogDto, @Param('id') id: string, req: any) {
+    return this.blogService.updateBlog(dto, id, req);
   }
 
   @UseGuards(AuthGuard('jwt'))

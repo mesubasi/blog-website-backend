@@ -1,4 +1,10 @@
-import { Get, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  Get,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Blog, BlogDocument } from './schemas/blog.schema';
 import { Model } from 'mongoose';
@@ -32,11 +38,13 @@ export class BlogsService {
     }
   }
 
-  async updateBlog(dto: BlogDto, id: string) {
+  async updateBlog(dto: BlogDto, id: string, req: any) {
     try {
-      return await this.blogModel.findByIdAndUpdate(id, dto, {
-        new: true,
-      });
+      const blog = await this.blogModel.findById(id);
+      if (dto.userId !== blog.userId)
+        throw new UnauthorizedException('This is not your blog!');
+
+      return await this.blogModel.findByIdAndUpdate(id, dto, { new: true });
     } catch (err) {
       throw new HttpException(
         err.message || 'Failed to update post',

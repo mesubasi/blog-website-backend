@@ -5,4 +5,5 @@ export class BlogDto {
   title: string;
   @ApiProperty({ example: 'Description' })
   content: string;
+  userId?: string;
 }
