@@ -29,15 +29,19 @@ export class BlogsController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @Put(':id')
-  updateBlog(@Body() dto: BlogDto, @Param('id') id: string, req: any) {
+  updateBlog(
+    @Body() dto: BlogDto,
+    @Param('id') id: string,
+    @Request() req: any,
+  ) {
     return this.blogService.updateBlog(dto, id, req);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @Delete(':id')
-  removeBlog(@Param('id') id: string) {
-    return this.blogService.removeBlog(id);
+  removeBlog(@Param('id') id: string, @Body() dto: BlogDto) {
+    return this.blogService.removeBlog(id, dto);
   }
 
   @Get()

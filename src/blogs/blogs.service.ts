@@ -52,14 +52,13 @@ export class BlogsService {
     }
   }
 
-  async removeBlog(id: string) {
+  async removeBlog(id: string, dto: BlogDto) {
     try {
-      const deletePost = await this.blogModel.findByIdAndDelete(id);
+      const blog = await this.blogModel.findById(id);
+      if (dto.userId !== blog.userId)
+        throw new UnauthorizedException('This is not your blog!');
 
-      if (!deletePost)
-        throw new HttpException(`Item ${id} Not Found!`, HttpStatus.NOT_FOUND);
-
-      return deletePost;
+      return await this.blogModel.findByIdAndDelete(id);
     } catch (err) {
       throw new HttpException(
         err.message || 'Failed to remove post',
