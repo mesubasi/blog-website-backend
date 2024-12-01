@@ -19,8 +19,10 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 
-@ApiTags('Blogs') // Swagger kategorisi
+@ApiTags('Blogs')
+@Throttle({ short: { limit: 10, ttl: 60000 } })
 @Controller('blogs')
 export class BlogsController {
   constructor(private blogService: BlogsService) {}
